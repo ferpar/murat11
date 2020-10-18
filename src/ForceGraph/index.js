@@ -6,6 +6,7 @@ import {
   forceCenter, 
   forceManyBody,
   forceCollide,
+  forceRadial,
   pointer,
   forceX,
   forceY
@@ -89,7 +90,23 @@ function ForceGraph({data}) {
         const [x, y] = pointer(event);
         simulation
           .alpha(0.5)
-          .restart();
+          .restart()
+          .force("orbit", forceRadial(
+            150, x, y).strength(0.8)
+          )
+        ;
+        
+        //render a circle to show radial force
+        svg
+          .selectAll(".orbit")
+          .data([data])
+          .join("circle")
+          .attr("class", "orbit")
+          .attr("stroke", "green")
+          .attr("fill", "none")
+          .attr("r", 150)
+          .attr("cx", x)
+          .attr("cy",y)
       });
 
   }, [data, dimensions])
