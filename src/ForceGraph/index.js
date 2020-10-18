@@ -23,18 +23,36 @@ function ForceGraph({data}) {
     if (!dimensions) return;
     const svg = select(svgRef.current);
 
+    // centering workaround
+    svg.attr("viewBox", [
+      -dimensions.width/2,
+      -dimensions.height/2,
+      dimensions.width,
+      dimensions.height
+    ]);
+
     //d3 util to work with hierarchical data
     const root = hierarchy(data);
     const nodeData = root.descendants();
     const linkData = root.links();
 
     const simulation = forceSimulation(nodeData)
-      .force("center", forceCenter( dimensions.width/2, dimensions.height/2))
       .force("charge", forceManyBody().strength(-30))
       .force("collide", forceCollide(30))
       .on('tick', () => {
         //console.log("current force", simulation.alpha())
         // render our nodes, links...
+      
+        // current alpha text
+        svg
+          .selectAll(".alpha")
+          .data([data])
+          .jost("text")
+          .attr("class", "alpha")
+          .text(simulation.alpha().toFixed(2))
+          .attr("x", -dimensions.width / 2 + 10)
+          .attr("y", -dimensions.height / 2 + 25)
+
         // links
         svg
           .selectAll(".link")
