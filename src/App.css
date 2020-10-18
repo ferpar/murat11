@@ -13,6 +13,10 @@
   align-self: center;
 }
 
+.graph-wrapper {
+  background-color: #eee;
+}
+
 svg {
   display: block;
   height: 100%;
