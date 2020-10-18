@@ -47,7 +47,7 @@ function ForceGraph({data}) {
         svg
           .selectAll(".alpha")
           .data([data])
-          .jost("text")
+          .join("text")
           .attr("class", "alpha")
           .text(simulation.alpha().toFixed(2))
           .attr("x", -dimensions.width / 2 + 10)
